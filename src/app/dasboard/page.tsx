@@ -1,10 +1,9 @@
-import SimpleRegistrationForm from "./login";
 
 
 export default function Home() {
   return (
     <main className="flex flex-col items-center justify-between ">
-      <SimpleRegistrationForm />
+      <h1>Page</h1>
     </main>
   )
 }
