@@ -77,11 +77,13 @@ const FormInput = ({ listPraktek }: { listPraktek: IPraktek[] }) => {
                 <Input
                     onChange={e => setcreatePasien(value => ({ ...value, tinggi: parseInt(e.target.value) }))}
                     size={"lg"} label="Tinggi"
+                    type='number'
                     error={false} />
 
                 <Input
                     onChange={e => setcreatePasien(value => ({ ...value, berat_badan: parseInt(e.target.value) }))}
                     size={"lg"} label="Berat Badan"
+                    type='number'
                     error={false} />
 
                 <Select label="Praktek Dokter"

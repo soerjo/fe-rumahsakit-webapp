@@ -6,11 +6,11 @@
         "children": [
             {
                 "menu_name": "Pasien",
-                "link": "http://localhost:3001/dashboard/admin/pasien"
+                "link": "/dashboard/admin/pasien"
             },
             {
                 "menu_name": "Tagihan",
-                "link": "http://localhost:3001/dashboard/admin/tagihan"
+                "link": "/dashboard/admin/tagihan"
             }
         ]
     },
@@ -21,7 +21,7 @@
         "children": [
             {
                 "menu_name": "Pasien",
-                "link": "http://localhost:3001/dashboard/dokter/pasien"
+                "link": "/dashboard/dokter/pasien"
             }
         ]
     },
@@ -32,15 +32,15 @@
         "children": [
             {
                 "menu_name": "Resep",
-                "link": "http://localhost:3001/dashboard/farmasi/resep"
+                "link": "/dashboard/farmasi/resep"
             },
             {
                 "menu_name": "Obat",
-                "link": "http://localhost:3001/dashboard/farmasi/obat"
+                "link": "/dashboard/farmasi/obat"
             },
             {
                 "menu_name": "Obat Keluar",
-                "link": "http://localhost:3001/dashboard/farmasi/obat_keluar"
+                "link": "/dashboard/farmasi/obat_keluar"
             }
         ]
     }

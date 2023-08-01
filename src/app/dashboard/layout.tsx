@@ -11,7 +11,7 @@ interface ILayout {
 export default function RootLayout({ children }: ILayout) {
   const nextCookies = cookies(); // Get cookies object
   const user = nextCookies.get('user') // Find cookie
-  const dataUser = JSON.parse(user?.value as string)
+  const dataUser = JSON.parse(user?.value || "{}")
 
   return (
     <div className='flex flex-col w-full h-screen bg-gray-500 p-2'>

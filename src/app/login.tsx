@@ -22,7 +22,7 @@ export default function SimpleRegistrationForm() {
     const onSubmit = async () => {
         setloading(true)
 
-        const fetchLogin = await fetch("http://localhost:3001/api/auth", {
+        const fetchLogin = await fetch("/api/auth", {
             method: 'POST',
             headers: { "Content-type": "application/json" },
             body: JSON.stringify({

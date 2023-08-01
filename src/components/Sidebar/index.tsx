@@ -35,7 +35,7 @@ interface ISidebar {
 function Sidebar({ user }: { user: any }) {
     const router = useRouter()
     const onLogout = async () => {
-        await fetch("http://localhost:3001/api/logout")
+        await fetch("/api/logout")
         router.push("/")
     }
 

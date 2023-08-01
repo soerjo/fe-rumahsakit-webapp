@@ -4,7 +4,7 @@ import React from "react";
 import { Navbar, Typography } from "@material-tailwind/react";
 
 const getAlias = (username: string) => {
-    const [first, last] = username.split(" ")
+    const [first, last] = username?.split(" ")
     if (last) return (first[0] + last[0]).toUpperCase()
 
     return (first[0] + first[1]).toUpperCase()

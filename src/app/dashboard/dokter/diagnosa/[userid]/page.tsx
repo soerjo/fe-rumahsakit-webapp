@@ -20,7 +20,7 @@ const Page = async ({ params }: { params: { userid: string } }) => {
     // console.log({ params })
 
     return (
-        <div className="flex w-full flex-col items-end gap-6 p-6">
+        <div className="flex w-full flex-col items-end gap-6">
             <FormInput pasien={listPraktek} />
 
         </div>
