@@ -1,0 +1,47 @@
+[
+    {
+        "menu_name": "Admin",
+        "icon_menu": "adminSvg",
+        "icon_src": "/assets/icon/admin.svg",
+        "children": [
+            {
+                "menu_name": "Pasien",
+                "link": "http://localhost:3001/dashboard/admin/pasien"
+            },
+            {
+                "menu_name": "Tagihan",
+                "link": "http://localhost:3001/dashboard/admin/tagihan"
+            }
+        ]
+    },
+    {
+        "menu_name": "Dokter",
+        "icon_menu": "dokterSvg",
+        "icon_src": "/assets/icon/dokter.svg",
+        "children": [
+            {
+                "menu_name": "Pasien",
+                "link": "http://localhost:3001/dashboard/dokter/pasien"
+            }
+        ]
+    },
+    {
+        "menu_name": "Farmasi",
+        "icon_menu": "apotekerSvg",
+        "icon_src": "/assets/icon/apoteker.svg",
+        "children": [
+            {
+                "menu_name": "Resep",
+                "link": "http://localhost:3001/dashboard/farmasi/resep"
+            },
+            {
+                "menu_name": "Obat",
+                "link": "http://localhost:3001/dashboard/farmasi/obat"
+            },
+            {
+                "menu_name": "Obat Keluar",
+                "link": "http://localhost:3001/dashboard/farmasi/obat_keluar"
+            }
+        ]
+    }
+]

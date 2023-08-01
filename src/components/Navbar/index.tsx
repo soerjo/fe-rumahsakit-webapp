@@ -1,49 +1,28 @@
 "use client";
 
 import React from "react";
-import {
-    Navbar,
-    Collapse,
-    Typography,
-    IconButton,
-} from "@material-tailwind/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Navbar, Typography } from "@material-tailwind/react";
 
-function NavList() {
-    const onLogout = async () => {
-        await fetch("http://localhost:3001/api/logout")
-    }
+const getAlias = (username: string) => {
+    const [first, last] = username.split(" ")
+    if (last) return (first[0] + last[0]).toUpperCase()
 
-
-    return (
-        <ul className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-            <Typography
-                as="li"
-                variant="small"
-                color="blue-gray"
-                className="p-1 font-medium"
-            >
-                <a onClick={onLogout} href="/" className="flex items-center hover:text-blue-500 transition-colors">
-                    Logout
-                </a>
-            </Typography>
-        </ul>
-    );
+    return (first[0] + first[1]).toUpperCase()
 }
 
-function NavbarSimple() {
-    const [openNav, setOpenNav] = React.useState(false);
-
-    const handleWindowResize = () =>
-        window.innerWidth >= 960 && setOpenNav(false);
-
-    React.useEffect(() => {
-        window.addEventListener("resize", handleWindowResize);
-
-        return () => {
-            window.removeEventListener("resize", handleWindowResize);
-        };
-    }, []);
+function NavbarSimple({ user }: { user: any }) {
+    function NavList() {
+        return (
+            <ul className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+                <div className="flex items-center gap-3">
+                    <h3 className="text-lg">{user?.username}</h3>
+                    <div className="flex justify-center items-center bg-blue-500 h-8 w-8 rounded-full text-white text-sm">
+                        {getAlias(user?.username)}
+                    </div>
+                </div>
+            </ul>
+        );
+    }
 
     return (
         <div className="mx-3 mt-3">
@@ -51,7 +30,7 @@ function NavbarSimple() {
                 <div className="flex items-center justify-between text-blue-gray-900">
                     <Typography
                         as="a"
-                        href="#"
+                        href="/dashboard"
                         variant="h6"
                         className="mr-4 cursor-pointer py-1.5"
                     >
@@ -60,22 +39,7 @@ function NavbarSimple() {
                     <div className="hidden lg:block">
                         <NavList />
                     </div>
-                    <IconButton
-                        variant="text"
-                        className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
-                        ripple={false}
-                        onClick={() => setOpenNav(!openNav)}
-                    >
-                        {openNav ? (
-                            <XMarkIcon className="h-6 w-6" strokeWidth={2} />
-                        ) : (
-                            <Bars3Icon className="h-6 w-6" strokeWidth={2} />
-                        )}
-                    </IconButton>
                 </div>
-                <Collapse open={openNav}>
-                    <NavList />
-                </Collapse>
             </Navbar>
         </div>
     );

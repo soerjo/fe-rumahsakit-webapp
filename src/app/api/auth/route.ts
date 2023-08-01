@@ -17,6 +17,13 @@ export async function POST(request: NextRequest) {
     secure: true,
     path: "/",
   });
+
+  response.cookies.set("user", JSON.stringify(data.payload), {
+    httpOnly: true,
+    secure: true,
+    path: "/",
+  });
+
   // request.cookies.set("token", data.access_token, { httpOnly: true });
 
   return response;

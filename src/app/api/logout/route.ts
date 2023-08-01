@@ -8,5 +8,11 @@ export async function GET(request: NextRequest) {
     path: "/",
   });
 
+  response.cookies.set("user", "", {
+    httpOnly: true,
+    secure: true,
+    path: "/",
+  });
+
   return response;
 }

@@ -32,9 +32,13 @@ export default function SimpleRegistrationForm() {
         })
 
         const data = await fetchLogin.json()
-        console.log({ data })
 
-        if (data?.access_token) router.push('/dashboard')
+        if (data?.access_token) {
+            router.refresh()
+            router.push("/dashboard")
+
+            return
+        }
 
         setloading(false)
         return

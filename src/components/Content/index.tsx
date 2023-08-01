@@ -1,14 +1,12 @@
-'use client'
 
 import React, { ReactNode } from 'react'
-import { Card } from '@material-tailwind/react'
 
 const Content = ({ children }: { children: ReactNode }) => {
     return (
         <div className='w-full p-3'>
-            <Card className="h-full p-4 shadow-xl shadow-blue-gray-900/5 bg-opacity-80">
+            <div className="h-full w-full p-4 shadow-xl bg-white rounded-xl shadow-blue-gray-900/5 bg-opacity-80">
                 {children}
-            </Card>
+            </div>
         </div>
     )
 }
