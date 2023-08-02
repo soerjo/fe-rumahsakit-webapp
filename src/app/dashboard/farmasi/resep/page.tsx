@@ -1,7 +1,7 @@
 import React from 'react'
 import { cookies } from 'next/dist/client/components/headers';
-import TablePasien from './tablePasien';
-// import TablePasien from '@/components/TablePasien';
+import TableResep from './tableResep';
+// import TableResep from '@/components/TableResep';
 
 const pagePasien = async () => {
     const nextCookies = cookies(); // Get cookies object
@@ -20,7 +20,7 @@ const pagePasien = async () => {
 
     return (
         <>
-            <TablePasien pasien={dataPasien} />
+            <TableResep pasien={dataPasien} />
         </>
     )
 }

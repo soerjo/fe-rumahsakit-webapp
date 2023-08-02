@@ -1,41 +1,40 @@
 'use client'
 
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
+import { PencilIcon } from "@heroicons/react/24/solid";
 import {
     Input,
     Typography,
-    Button,
     CardBody,
     Chip,
     IconButton,
     Tooltip,
 } from "@material-tailwind/react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-const TABLE_HEAD = ["Nama Pasien", "Praktek", "Status", "waktu registrasi"];
+const TABLE_HEAD = ["Nama Pasien", "Praktek", "Status", "waktu registrasi", "action"];
 
 const formatTanggal = (tanggal: Date | string) => {
     return new Date(tanggal).toDateString() + " | " + new Date(tanggal).toLocaleTimeString()
 }
 
 export default function TablePasien({ pasien }: { pasien: any }) {
+    const router = useRouter()
+
+    const diagnosaPasien = (pasienid: string) => {
+        router.push("/dashboard/admin/tagihan/" + pasienid)
+    }
     return (
         <div className="w-full p-3">
             <div className="rounded-none">
                 <div className="mb-8 flex items-center justify-between gap-8">
                     <div>
                         <Typography variant="h5" color="blue-gray">
-                            List Pasien
+                            List Tagihan Pasien
                         </Typography>
                         <Typography color="gray" className="mt-1 font-normal">
-                            Kehadiran pasien hari ini di puskesmas balai bersama.
+                            Tagihan pasien hari ini di puskesmas balai bersama.
                         </Typography>
-                    </div>
-                    <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
-                        <Link href={"/dashboard/admin/tambah_pasien"} className="flex items-center gap-3 bg-blue-500 text-white px-3 py-2 rounded-lg">
-                            <UserPlusIcon strokeWidth={2} className="h-4 w-4" /> Registrasi Pasien
-                        </Link>
                     </div>
                 </div>
                 <div className="flex flex-col items-center justify-end gap-4 md:flex-row">
@@ -65,6 +64,8 @@ export default function TablePasien({ pasien }: { pasien: any }) {
                         {pasien.map((perpasien: any, index: number) => {
                             const isLast = index === pasien.length - 1;
                             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
+
+                            // if (perpasien.diagnosa) return
 
                             return (
                                 <tr key={index}>
@@ -103,8 +104,8 @@ export default function TablePasien({ pasien }: { pasien: any }) {
                                             <Chip
                                                 variant="ghost"
                                                 size="sm"
-                                                value={perpasien?.diagnosa ? "selesai" : "menunggu"}
-                                                color={perpasien?.diagnosa ? "blue-gray" : "green"}
+                                                value={perpasien?.resep_status && perpasien?.pembayaran_status ? "selesai" : "menunggu"}
+                                                color={perpasien?.resep_status && perpasien?.pembayaran_status ? "blue-gray" : "green"}
                                             />
                                         </div>
                                     </td>
@@ -112,6 +113,13 @@ export default function TablePasien({ pasien }: { pasien: any }) {
                                         <Typography variant="small" color="blue-gray" className="font-normal">
                                             {formatTanggal(perpasien?.created_at)}
                                         </Typography>
+                                    </td>
+                                    <td className={classes}>
+                                        <Tooltip content="Diagnosa Pasien">
+                                            <IconButton onClick={() => perpasien?.diagnosa && perpasien?.resep_status && !perpasien?.pembayaran_status && diagnosaPasien(perpasien.id)} variant="text" color="blue-gray">
+                                                <PencilIcon className={perpasien?.diagnosa && perpasien?.resep_status && !perpasien?.pembayaran_status ? 'h-4 w-4 text-gray-500 ' : 'h-4 w-4 text-blue-500 '} />
+                                            </IconButton>
+                                        </Tooltip>
                                     </td>
                                 </tr>
                             );

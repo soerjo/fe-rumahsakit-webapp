@@ -37,10 +37,6 @@
             {
                 "menu_name": "Obat",
                 "link": "/dashboard/farmasi/obat"
-            },
-            {
-                "menu_name": "Obat Keluar",
-                "link": "/dashboard/farmasi/obat_keluar"
             }
         ]
     }

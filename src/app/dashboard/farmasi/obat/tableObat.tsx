@@ -1,40 +1,33 @@
 'use client'
 
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
+import { UserPlusIcon } from "@heroicons/react/24/solid";
 import {
     Input,
     Typography,
-    Button,
     CardBody,
-    Chip,
-    IconButton,
-    Tooltip,
 } from "@material-tailwind/react";
 import Link from "next/link";
+import { ICreateObat } from "../tambah_obat/formInput";
 
-const TABLE_HEAD = ["Nama Pasien", "Praktek", "Status", "waktu registrasi"];
+const TABLE_HEAD = ["Nama Obat", "Merek", "Kandungan", "Harga Jual", "Harga Beli", "Qty", "Satuan"];
 
-const formatTanggal = (tanggal: Date | string) => {
-    return new Date(tanggal).toDateString() + " | " + new Date(tanggal).toLocaleTimeString()
-}
-
-export default function TablePasien({ pasien }: { pasien: any }) {
+export default function TableObat({ pasien }: { pasien: ICreateObat[] }) {
     return (
         <div className="w-full p-3">
             <div className="rounded-none">
                 <div className="mb-8 flex items-center justify-between gap-8">
                     <div>
                         <Typography variant="h5" color="blue-gray">
-                            List Pasien
+                            List Obat
                         </Typography>
                         <Typography color="gray" className="mt-1 font-normal">
-                            Kehadiran pasien hari ini di puskesmas balai bersama.
+                            Ketersedian Obat di puskesmas balai bersama.
                         </Typography>
                     </div>
                     <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
-                        <Link href={"/dashboard/admin/tambah_pasien"} className="flex items-center gap-3 bg-blue-500 text-white px-3 py-2 rounded-lg">
-                            <UserPlusIcon strokeWidth={2} className="h-4 w-4" /> Registrasi Pasien
+                        <Link href={"/dashboard/farmasi/tambah_obat"} className="flex items-center gap-3 bg-blue-500 text-white px-3 py-2 rounded-lg">
+                            <UserPlusIcon strokeWidth={2} className="h-4 w-4" /> Obat Baru
                         </Link>
                     </div>
                 </div>
@@ -62,7 +55,7 @@ export default function TablePasien({ pasien }: { pasien: any }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {pasien.map((perpasien: any, index: number) => {
+                        {pasien.map((perpasien, index: number) => {
                             const isLast = index === pasien.length - 1;
                             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 
@@ -72,14 +65,7 @@ export default function TablePasien({ pasien }: { pasien: any }) {
                                         <div className="flex items-center gap-3">
                                             <div className="flex flex-col">
                                                 <Typography variant="small" color="blue-gray" className="font-normal capitalize">
-                                                    {perpasien?.fullname}
-                                                </Typography>
-                                                <Typography
-                                                    variant="small"
-                                                    color="blue-gray"
-                                                    className="font-normal opacity-70"
-                                                >
-                                                    {perpasien?.id}
+                                                    {perpasien?.nama_obat}
                                                 </Typography>
                                             </div>
                                         </div>
@@ -87,30 +73,35 @@ export default function TablePasien({ pasien }: { pasien: any }) {
                                     <td className={classes}>
                                         <div className="flex flex-col">
                                             <Typography variant="small" color="blue-gray" className="font-normal">
-                                                {perpasien?.praktek?.nama_praktek}
-                                            </Typography>
-                                            <Typography
-                                                variant="small"
-                                                color="blue-gray"
-                                                className="font-normal opacity-70"
-                                            >
-                                                {perpasien?.praktek?.dokter?.fullname}
+                                                {perpasien?.merek_obat}
                                             </Typography>
                                         </div>
                                     </td>
                                     <td className={classes}>
-                                        <div className="w-max">
-                                            <Chip
-                                                variant="ghost"
-                                                size="sm"
-                                                value={perpasien?.diagnosa ? "selesai" : "menunggu"}
-                                                color={perpasien?.diagnosa ? "blue-gray" : "green"}
-                                            />
+                                        <div className="flex flex-col">
+                                            <Typography variant="small" color="blue-gray" className="font-normal capitalize">
+                                                {perpasien?.kandungan_obat}
+                                            </Typography>
                                         </div>
                                     </td>
                                     <td className={classes}>
                                         <Typography variant="small" color="blue-gray" className="font-normal">
-                                            {formatTanggal(perpasien?.created_at)}
+                                            Rp {perpasien?.harga_jual_satuan}
+                                        </Typography>
+                                    </td>
+                                    <td className={classes}>
+                                        <Typography variant="small" color="blue-gray" className="font-normal">
+                                            Rp {perpasien?.harga_beli_satuan}
+                                        </Typography>
+                                    </td>
+                                    <td className={classes}>
+                                        <Typography variant="small" color="blue-gray" className="font-normal">
+                                            {perpasien?.qty_obat}
+                                        </Typography>
+                                    </td>
+                                    <td className={classes}>
+                                        <Typography variant="small" color="blue-gray" className="font-normal">
+                                            {perpasien?.satuan_obat}
                                         </Typography>
                                     </td>
                                 </tr>

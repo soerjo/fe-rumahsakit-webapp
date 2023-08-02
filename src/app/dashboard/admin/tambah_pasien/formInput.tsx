@@ -1,10 +1,11 @@
 'use client'
 
 import React from 'react'
-import { Button, Input, Option, Select } from '@material-tailwind/react'
+import { Button, Input, Option, Select, Typography } from '@material-tailwind/react'
 import { postPasien } from './createpasien.action';
 import { useRouter } from 'next/navigation';
 import ErrorAlert from './errorAlert';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 
 export interface IPraktek {
     nama_praktek: string;
@@ -48,8 +49,18 @@ const FormInput = ({ listPraktek }: { listPraktek: IPraktek[] }) => {
     console.log({ inputerror })
     return (
         <div className='w-full'>
+
+            <div className="rounded-none p-3">
+                <div className="mb-3 flex items-center justify-between gap-8">
+                    <div>
+                        <Typography variant="h5" color="blue-gray">
+                            Registrasi Pasien
+                        </Typography>
+                    </div>
+                </div>
+            </div>
             {inputerror && <ErrorAlert error={inputerror} />}
-            <form onSubmit={onSubmit} className='flex w-full flex-col items-end gap-6 p-6'>
+            <form onSubmit={onSubmit} className='flex w-full flex-col items-end gap-6 p-3'>
                 <Input
                     onChange={e => setcreatePasien(value => ({ ...value, fullname: e.target.value }))}
                     value={createPasien.fullname}

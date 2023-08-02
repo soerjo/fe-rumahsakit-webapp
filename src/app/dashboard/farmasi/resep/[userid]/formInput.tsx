@@ -7,14 +7,61 @@ import { useRouter } from 'next/navigation';
 import { SatuanObat, satuanObat } from '@/constant/satuanObat.constant';
 import { Button, IconButton, Input, Option, Select, Textarea, Typography } from '@material-tailwind/react'
 import ErrorAlert from './errorAlert';
-import { createResep } from './createResep';
+import { createObatKeluar } from './createObatKeluar';
 import { updatePasien } from './updatePasien';
-import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 
 export interface IResep {
-    kandungan_obat: string;
-    qty_obat: string;
-    satuan_obat: SatuanObat;
+    harga_beli_satuan: number,
+    harga_jual_satuan: number,
+    id: string,
+    kandungan_obat: string,
+    keterangan: string,
+    merek_obat: string,
+    nama_obat: string,
+    qty_obat: number,
+    satuan_obat: string,
+}
+
+
+const ListObatKeluar = ({ resep, index, handleDeleteResep }: { index: number, resep: IResep, handleDeleteResep: (index: number) => void }) => {
+    return (
+        <div className='flex flex-row justify-center items-center w-full gap-3 px-2'>
+            <Input
+                value={resep.kandungan_obat}
+                readOnly
+                size={"md"}
+                label="Nama Obat"
+                error={false} />
+
+            <Input
+                value={resep.kandungan_obat}
+                readOnly
+                size={"md"}
+                label="Merek Obat"
+                error={false} />
+
+            <Input
+                value={resep.qty_obat}
+                readOnly
+                size={"md"}
+                label="Qty Obat"
+                type='number'
+                error={false} />
+
+            <Input
+                value={resep.satuan_obat}
+                readOnly
+                size={"md"}
+                label="Satuan Obat"
+                type='text'
+                error={false} />
+
+            <IconButton onClick={() => handleDeleteResep(index)} color='red' size="sm" className='w-[100px]'>
+                <Image src="/assets/icon/trash.svg" alt='plus' width={60} height={60} />
+            </IconButton>
+
+        </div >
+    )
 }
 
 const ListResepObat = ({ resep, index, handleDeleteResep }: { index: number, resep: IResep, handleDeleteResep: (index: number) => void }) => {
@@ -43,49 +90,38 @@ const ListResepObat = ({ resep, index, handleDeleteResep }: { index: number, res
                 type='text'
                 error={false} />
 
-            <IconButton onClick={() => handleDeleteResep(index)} color='red' size="sm" className='w-[100px]'>
+            {/* <IconButton onClick={() => handleDeleteResep(index)} color='red' size="sm" className='w-[100px]'>
                 <Image src="/assets/icon/trash.svg" alt='plus' width={60} height={60} />
-            </IconButton>
+            </IconButton> */}
 
         </div >
     )
 }
 
-const FormInput = ({ pasien }: { pasien: any }) => {
-    const [diagnosa, setdiagnosa] = React.useState("")
+const FormInput = ({ pasien, resep: resepObatbaru, listObat }: { pasien: any, resep: any, listObat: any }) => {
     const [inputerror, setinputerror] = React.useState<string[] | null>(null)
-    const [resepObat, setResepObat] = React.useState<IResep[]>([] as IResep[])
-    const [resep, setResep] = React.useState<IResep>({
-        kandungan_obat: '',
-        qty_obat: '',
-        satuan_obat: "" as SatuanObat
-    } as IResep)
+    const [resepObat, setResepObat] = React.useState<IResep[]>([])
+    const [resep, setResep] = React.useState<IResep>({} as IResep)
 
     const router = useRouter()
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
-        const resUpdatePasien = await updatePasien({ ...pasien, diagnosa }, pasien.id)
-        console.log({ resUpdatePasien })
-        if (resUpdatePasien?.statusCode === 400) return setinputerror(resUpdatePasien?.message)
-
-        const resCreateResep = await createResep({ userid: pasien.id, item: resepObat })
-        console.log({ resUpdatePasien })
+        // console.log({ resepObat })
+        const resCreateResep = await createObatKeluar({ userid: pasien.id, item: resepObat })
         if (resCreateResep?.statusCode === 400) return setinputerror(resCreateResep?.message)
 
         router.push("/dashboard")
     }
 
     const addResep = () => {
-        if (resep.kandungan_obat && resep.qty_obat && resep.satuan_obat) {
+        console.log({ resep })
+        if (resep.nama_obat && resep.qty_obat && resep.satuan_obat) {
+
 
             setResepObat(value => [...value, resep])
-            setResep({
-                kandungan_obat: '',
-                qty_obat: '',
-                satuan_obat: "" as SatuanObat
-            } as IResep)
+            setResep({} as IResep)
         }
     }
 
@@ -101,11 +137,13 @@ const FormInput = ({ pasien }: { pasien: any }) => {
                 <div className="mb-3 flex items-center justify-between gap-8">
                     <div>
                         <Typography variant="h5" color="blue-gray">
-                            Diagnosa + Resep Obat Pasien
+                            Obat Keluar
                         </Typography>
                     </div>
                 </div>
             </div>
+
+
             {inputerror && <ErrorAlert error={inputerror} />}
             <form onSubmit={onSubmit} className='flex w-full flex-col items-end gap-6 p-3'>
                 <Input
@@ -126,7 +164,7 @@ const FormInput = ({ pasien }: { pasien: any }) => {
                     <Input
                         readOnly
                         size={"md"}
-                        label="Tinggi"
+                        label="*Tinggi"
                         value={pasien.tinggi}
                         error={false} />
 
@@ -138,21 +176,38 @@ const FormInput = ({ pasien }: { pasien: any }) => {
                         error={false} />
 
                 </div>
-                <Textarea label="Diagnosa" value={diagnosa} onChange={(e) => setdiagnosa(e.target.value)} />
+                <Textarea label="*Diagnosa" value={pasien.diagnosa} readOnly />
 
                 <div className='w-full flex flex-col p-3 outline outline-1 outline-gray-500 rounded-lg gap-3'>
                     <h3 className=' text-blue-gray-500'>Resep Obat</h3>
+                    <div className='w-full h-[2px] bg-blue-gray-200 bg-opacity-50'></div>
+                    <div className='max-h-[200px] overflow-hidden overflow-y-scroll flex flex-col gap-3 py-2'>
+                        {resepObatbaru.map((resep: any, index: number) => (
+                            <ListResepObat key={index} index={index} resep={resep} handleDeleteResep={handleDeleteResep} />
+                        ))}
+                    </div>
+
+                </div>
+
+                <div className='w-full flex flex-col p-3 outline outline-1 outline-gray-500 rounded-lg gap-3'>
+                    <h3 className=' text-blue-gray-500'>Obat Keluar</h3>
                     <div className='flex flex-row w-full gap-3'>
-                        <Input
-                            value={resep.kandungan_obat}
-                            onChange={e => setResep(value => ({ ...value, kandungan_obat: e.target.value }))}
+                        <Select
+                            label="Nama Obat"
                             size={"md"}
-                            label="Kandungan Obat"
-                            error={false} />
+                            value={resep.nama_obat}
+                            onChange={e => {
+                                setResep(value => ({ ...value, ...listObat.find((el: any) => el.nama_obat === e) }))
+                            }}
+                        >
+                            {listObat.map((obat: { id: string, nama_obat: string, merek_obat: string }, index: number) => (
+                                <Option value={obat.nama_obat} key={index} className='capitalize'>{`${obat.nama_obat} | ${obat.merek_obat}`}</Option>
+                            ))}
+                        </Select>
 
                         <Input
-                            value={resep?.qty_obat}
-                            onChange={e => setResep(value => ({ ...value, qty_obat: e.target.value }))}
+                            value={resep?.qty_obat || ""}
+                            onChange={e => setResep(value => ({ ...value, qty_obat: parseInt(e.target.value) }))}
                             size={"md"}
                             label="Qty Obat"
                             type='number'
@@ -175,15 +230,16 @@ const FormInput = ({ pasien }: { pasien: any }) => {
                     <div className='w-full h-[2px] bg-blue-gray-200 bg-opacity-50'></div>
                     <div className='max-h-[200px] overflow-hidden overflow-y-scroll flex flex-col gap-3 py-2'>
                         {resepObat.map((resep, index) => (
-                            <ListResepObat key={index} index={index} resep={resep} handleDeleteResep={handleDeleteResep} />
+                            <ListObatKeluar key={index} index={index} resep={resep} handleDeleteResep={handleDeleteResep} />
                         ))}
                     </div>
 
                 </div>
 
+
                 <Button type='submit' fullWidth size='lg'>Submit</Button>
-            </form>
-        </div>
+            </form >
+        </div >
     )
 }
 

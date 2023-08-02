@@ -1,14 +1,14 @@
 import React from 'react'
 import { cookies } from 'next/dist/client/components/headers';
-import TablePasien from './tablePasien';
-// import TablePasien from '@/components/TablePasien';
+import TableObat from './tableObat';
+// import TableObat from '@/components/TableObat';
 
 const pagePasien = async () => {
     const nextCookies = cookies(); // Get cookies object
     const token = nextCookies.get('token') // Find cookie
 
     const fetchData = async () => {
-        const res = await fetch("http://localhost:3000/pasien", {
+        const res = await fetch("http://localhost:3000/obat", {
             headers: { 'Authorization': `Bearer ${token?.value}` }
         })
         const data = await res.json()
@@ -20,7 +20,7 @@ const pagePasien = async () => {
 
     return (
         <>
-            <TablePasien pasien={dataPasien} />
+            <TableObat pasien={dataPasien} />
         </>
     )
 }

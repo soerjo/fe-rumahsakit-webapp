@@ -1,17 +1,15 @@
 'use client'
 
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
+import { PencilIcon } from "@heroicons/react/24/solid";
 import {
     Input,
     Typography,
-    Button,
     CardBody,
     Chip,
     IconButton,
     Tooltip,
 } from "@material-tailwind/react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const TABLE_HEAD = ["Nama Pasien", "Praktek", "Status", "waktu registrasi", "action"];
@@ -38,11 +36,6 @@ export default function TablePasien({ pasien }: { pasien: any }) {
                             Kehadiran pasien hari ini di puskesmas balai bersama.
                         </Typography>
                     </div>
-                    {/* <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
-                        <Link href={"/dashboard/tambah_pasien"} className="flex items-center gap-3 bg-blue-500 text-white px-3 py-2 rounded-lg">
-                            <UserPlusIcon strokeWidth={2} className="h-4 w-4" /> Registrasi Pasien
-                        </Link>
-                    </div> */}
                 </div>
                 <div className="flex flex-col items-center justify-end gap-4 md:flex-row">
                     <div className="w-full md:w-72">
@@ -71,6 +64,8 @@ export default function TablePasien({ pasien }: { pasien: any }) {
                         {pasien.map((perpasien: any, index: number) => {
                             const isLast = index === pasien.length - 1;
                             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
+
+                            if (perpasien.diagnosa) return
 
                             return (
                                 <tr key={index}>
