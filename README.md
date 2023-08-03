@@ -25,3 +25,8 @@ $ npm run start
 ```
 
 - app frontend akan berjalan di port 3001
+
+## Login super admin
+
+"username": "superduperuser",
+"password": "superduperpassword"
